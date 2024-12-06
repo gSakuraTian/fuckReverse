@@ -22,7 +22,7 @@
 
 将E02E90作为偏移
 
-30010000作为判断 
+30010000判断   数据进行解密方式
 
 将67236作为读取字节数
 
@@ -32,32 +32,18 @@
 
 ![image-20240721154901333](packdat.assets/image-20240721154901333.png)
 
-对数据进行操作
+![image-20241206132932376](packdat.assets/image-20241206132932376.png)
+
+第一种解密
 
 ![image-20240721155035647](packdat.assets/image-20240721155035647.png)
 
 解密数据 获取文件
 
-
-
 ————————————————
 
+![image-20241206144015421](packdat.assets/image-20241206144015421.png)
+
+第二种解密
 
 
-![image-20240721161422498](packdat.assets/image-20240721161422498.png)
-
-![image-20240721163242983](packdat.assets/image-20240721163242983.png)
-
-
-
-![image-20240721165144323](packdat.assets/image-20240721165144323.png)
-
-最后数据结构存储为
-
-![image-20240721170324465](packdat.assets/image-20240721170324465.png)
-
-![image-20240721170533396](packdat.assets/image-20240721170533396.png)
-
-![image-20240721171802771](packdat.assets/image-20240721171802771.png)
-
-从后往前copy

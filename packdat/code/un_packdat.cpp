@@ -61,26 +61,30 @@ int ReadFilePackDat(LPCTSTR filePath)
             Buf = (char*)malloc(data.size2);
             ReadFile(pFile, Buf, data.size2, &nByt, NULL);
 
+            //std::cout << std::hex << data.cmp;
             DWORD tmp = 0;
-            __asm
-            {
-                mov eax, data.size2
-                shr eax, 2
-                mov ecx, eax
-                mov esi, eax
-                and ecx, 7
-                mov edi, Buf
-                add ecx, 8
-                shl esi, cl
-                xor esi, eax
-                mov tmp, eax
-            }
-            while(tmp > 0)
+
+            if (0x20000000 != data.cmp)
             {
                 __asm
                 {
-                
-                    mov ecx, dword ptr ds : [edi]
+                    mov eax, data.size2
+                    shr eax, 2
+                    mov ecx, eax
+                    mov esi, eax
+                    and ecx, 7
+                    mov edi, Buf
+                    add ecx, 8
+                    shl esi, cl
+                    xor esi, eax
+                    mov tmp, eax
+                }
+                while (tmp > 0)
+                {
+                    __asm
+                    {
+
+                        mov ecx, dword ptr ds : [edi]
                         xor edx, edx
                         xor ecx, esi
                         mov dword ptr ds : [edi] , ecx
@@ -95,8 +99,29 @@ int ReadFilePackDat(LPCTSTR filePath)
                         mov ecx, edx
                         shl esi, cl
                         or esi, eax
+                    }
+                    tmp = tmp - 1;
                 }
-                tmp = tmp - 1;
+            }
+            else
+            {
+                __asm
+                {
+                    mov eax, data.size2
+                    mov tmp, eax
+                    xor ecx, ecx
+                    mov edi, Buf
+
+                    calc :
+                    mov al, byte ptr ds : [edi + ecx]
+                        not al
+                        mov byte ptr ds : [edi + ecx], al
+                        inc ecx
+                        cmp ecx, tmp
+                        jl calc
+
+
+                }
             }
             
             FILE* dst = fopen(data.sign, "wb");
